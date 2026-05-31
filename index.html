@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figurinhas Contabilidade Básica</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#061b3a;
+  font-family:Arial, Helvetica, sans-serif;
+  color:white;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.container{
+  width:100%;
+  max-width:430px;
+  min-height:100vh;
+  padding:18px 12px 90px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+h1{
+  font-size:24px;
+  text-align:center;
+  margin:0 0 14px;
+  color:#fff;
+}
+
+.contador{
+  font-size:18px;
+  margin-bottom:12px;
+  color:#ffd54a;
+  font-weight:bold;
+}
+
+.figurinha{
+  width:100%;
+  max-width:390px;
+  aspect-ratio: 3 / 5;
+  border-radius:22px;
+  border:5px solid #ffffff;
+  background-image:url("figurinhas.png");
+  background-repeat:no-repeat;
+  background-size:500% 200%;
+  box-shadow:0 8px 25px rgba(0,0,0,.45);
+}
+
+.botoes{
+  position:fixed;
+  bottom:48px;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:0 10px;
+}
+
+button{
+  border:0;
+  border-radius:14px;
+  padding:14px 16px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  color:white;
+  background:#0d6efd;
+}
+
+button.reiniciar{
+  background:#ff9800;
+}
+
+footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#020d1f;
+  color:#fff;
+  text-align:center;
+  font-size:14px;
+  padding:10px 6px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Curso de Contabilidade Professor Moreira</h1>
+  <div class="contador" id="contador">Figurinha 1 de 10</div>
+  <div class="figurinha" id="figurinha"></div>
+</div>
+
+<div class="botoes">
+  <button onclick="voltar()">⬅️ Voltar</button>
+  <button class="reiniciar" onclick="reiniciar()">🔄 Reiniciar</button>
+  <button onclick="proxima()">Seguir ➡️</button>
+</div>
+
+<footer>
+  Curso de Contabilidade Professor Moreira - WhatsApp 61-985323574
+</footer>
+
+<script>
+let atual = 0;
+
+const posicoes = [
+  "0% 0%",
+  "25% 0%",
+  "50% 0%",
+  "75% 0%",
+  "100% 0%",
+  "0% 100%",
+  "25% 100%",
+  "50% 100%",
+  "75% 100%",
+  "100% 100%"
+];
+
+function atualizar(){
+  document.getElementById("figurinha").style.backgroundPosition = posicoes[atual];
+  document.getElementById("contador").innerText = "Figurinha " + (atual + 1) + " de 10";
+}
+
+function proxima(){
+  if(atual < 9){
+    atual++;
+    atualizar();
+  }
+}
+
+function voltar(){
+  if(atual > 0){
+    atual--;
+    atualizar();
+  }
+}
+
+function reiniciar(){
+  atual = 0;
+  atualizar();
+}
+
+atualizar();
+</script>
+
+</body>
+</html>
