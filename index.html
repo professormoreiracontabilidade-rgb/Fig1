@@ -3,161 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Figurinhas Contabilidade Básica</title>
+<title>50 Dicas de Contabilidade Básica</title>
 
 <style>
 *{box-sizing:border-box}
-
 body{
   margin:0;
-  background:#061b3a;
   font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(160deg,#020617,#0f172a,#1e3a8a);
   color:white;
   min-height:100vh;
   display:flex;
-  flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
 }
-
-.container{
+.app{
   width:100%;
   max-width:430px;
   min-height:100vh;
-  padding:18px 12px 90px;
+  padding:18px;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:center;
 }
-
-h1{
-  font-size:24px;
+.header{
   text-align:center;
-  margin:0 0 14px;
-  color:#fff;
+  font-weight:900;
+  font-size:22px;
+  color:#facc15;
+  margin-bottom:15px;
 }
-
-.contador{
-  font-size:18px;
-  margin-bottom:12px;
-  color:#ffd54a;
-  font-weight:bold;
-}
-
-.figurinha{
-  width:100%;
-  max-width:390px;
-  aspect-ratio: 3 / 5;
-  border-radius:22px;
-  border:5px solid #ffffff;
-  background-image:url("figurinhas.png");
-  background-repeat:no-repeat;
-  background-size:500% 200%;
-  box-shadow:0 8px 25px rgba(0,0,0,.45);
-}
-
-.botoes{
-  position:fixed;
-  bottom:48px;
-  left:0;
-  right:0;
+.card{
+  flex:1;
+  background:rgba(255,255,255,.10);
+  border:2px solid rgba(255,255,255,.25);
+  border-radius:28px;
+  padding:25px;
   display:flex;
+  flex-direction:column;
   justify-content:center;
-  gap:10px;
-  padding:0 10px;
-}
-
-button{
-  border:0;
-  border-radius:14px;
-  padding:14px 16px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  color:white;
-  background:#0d6efd;
-}
-
-button.reiniciar{
-  background:#ff9800;
-}
-
-footer{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#020d1f;
-  color:#fff;
+  align-items:center;
   text-align:center;
-  font-size:14px;
-  padding:10px 6px;
+  box-shadow:0 0 25px rgba(0,0,0,.4);
+}
+.emoji{
+  font-size:76px;
+  margin-bottom:20px;
+}
+.numero{
+  background:#facc15;
+  color:#020617;
+  font-size:24px;
+  font-weight:900;
+  padding:8px 18px;
+  border-radius:30px;
+  margin-bottom:20px;
+}
+.texto{
+  font-size:30px;
+  line-height:1.25;
+  font-weight:800;
+}
+.progresso{
+  margin-top:20px;
+  font-size:20px;
   font-weight:bold;
+  color:#dbeafe;
+}
+.botoes{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+button{
+  flex:1;
+  border:none;
+  border-radius:18px;
+  padding:16px 10px;
+  font-size:20px;
+  font-weight:900;
+  cursor:pointer;
+}
+.voltar{background:#38bdf8;color:#001}
+.seguir{background:#22c55e;color:#001}
+.reiniciar{background:#f97316;color:#fff}
+.footer{
+  text-align:center;
+  margin-top:14px;
+  font-size:16px;
+  font-weight:800;
+  color:#f8fafc;
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<div class="container">
-  <h1>Curso de Contabilidade Professor Moreira</h1>
-  <div class="contador" id="contador">Figurinha 1 de 10</div>
-  <div class="figurinha" id="figurinha"></div>
+  <div class="header">📚 50 DICAS DE CONTABILIDADE BÁSICA</div>
+
+  <div class="card">
+    <div class="emoji" id="emoji">💰</div>
+    <div class="numero" id="numero">DICA 1</div>
+    <div class="texto" id="texto"></div>
+    <div class="progresso" id="progresso"></div>
+  </div>
+
+  <div class="botoes">
+    <button class="voltar" onclick="voltar()">⬅️ Voltar</button>
+    <button class="reiniciar" onclick="reiniciar()">🔄 Reiniciar</button>
+    <button class="seguir" onclick="seguir()">➡️ Seguir</button>
+  </div>
+
+  <div class="footer">Cursos de Contabilidade Professor Moreira</div>
+
 </div>
-
-<div class="botoes">
-  <button onclick="voltar()">⬅️ Voltar</button>
-  <button class="reiniciar" onclick="reiniciar()">🔄 Reiniciar</button>
-  <button onclick="proxima()">Seguir ➡️</button>
-</div>
-
-<footer>
-  Curso de Contabilidade Professor Moreira - WhatsApp 61-985323574
-</footer>
 
 <script>
-let atual = 0;
-
-const posicoes = [
-  "0% 0%",
-  "25% 0%",
-  "50% 0%",
-  "75% 0%",
-  "100% 0%",
-  "0% 100%",
-  "25% 100%",
-  "50% 100%",
-  "75% 100%",
-  "100% 100%"
+const dicas = [
+["💰","Ativo representa bens e direitos controlados pela entidade que geram benefícios econômicos futuros."],
+["📌","Passivo representa obrigações presentes decorrentes de eventos passados."],
+["⚖️","Patrimônio Líquido = Ativo − Passivo."],
+["📈","Receitas aumentam o Patrimônio Líquido."],
+["📉","Despesas reduzem o Patrimônio Líquido."],
+["🔵","Contas do Ativo possuem natureza devedora."],
+["🔴","Contas do Passivo possuem natureza credora."],
+["🟢","Contas do Patrimônio Líquido possuem natureza credora."],
+["💵","Contas de Receita possuem natureza credora."],
+["🧾","Contas de Despesa possuem natureza devedora."],
+["🚫","Débito não significa prejuízo."],
+["🚫","Crédito não significa ganho."],
+["📝","Todo lançamento possui pelo menos um débito e um crédito."],
+["✅","A soma dos débitos deve ser igual à soma dos créditos."],
+["🛒","Compra de mercadorias à vista troca elementos do ativo."],
+["🤝","Pagamento de fornecedores reduz ativo e passivo simultaneamente."],
+["💸","Venda à vista aumenta Caixa e Receita."],
+["📄","Venda a prazo aumenta Clientes e Receita."],
+["🏦","Recebimento de cliente troca Clientes por Caixa."],
+["🏛️","Empréstimo obtido aumenta Caixa e Passivo."],
+["⏳","Despesas antecipadas são classificadas no Ativo."],
+["📦","Receitas antecipadas são classificadas no Passivo."],
+["📆","Aplicações financeiras com vencimento superior a 12 meses normalmente ficam no Realizável a Longo Prazo."],
+["📑","Duplicatas a Receber representam direito da empresa."],
+["📌","Duplicatas a Pagar representam obrigação da empresa."],
+["📦","Estoque é conta do Ativo Circulante."],
+["💵","Caixa é conta do Ativo Circulante."],
+["🏦","Bancos Conta Movimento é conta do Ativo Circulante."],
+["🚚","Fornecedores é conta do Passivo Circulante."],
+["👷","Salários a Pagar é conta do Passivo."],
+["🚗","Veículos utilizados na operação são classificados no Imobilizado."],
+["🏭","Máquinas utilizadas na produção pertencem ao Imobilizado."],
+["™️","Marcas e patentes são classificadas no Intangível."],
+["🌎","Terrenos normalmente não sofrem depreciação."],
+["⚙️","Máquinas sofrem depreciação."],
+["©️","Direitos autorais podem ser classificados como Intangível."],
+["⬇️","Depreciação Acumulada é conta retificadora do Ativo."],
+["⬇️","Amortização Acumulada é conta retificadora do Ativo."],
+["⬇️","Exaustão Acumulada é conta retificadora do Ativo."],
+["⚠️","Perdas Estimadas com Créditos de Liquidação Duvidosa reduzem Clientes."],
+["🏢","Capital Social pertence ao Patrimônio Líquido."],
+["💎","Reservas de Lucros pertencem ao Patrimônio Líquido."],
+["🔻","Ações em Tesouraria são conta retificadora do Patrimônio Líquido."],
+["🔻","Capital a Integralizar é conta retificadora do Patrimônio Líquido."],
+["📉","Prejuízos Acumulados reduzem o Patrimônio Líquido."],
+["📊","O Balanço Patrimonial evidencia a posição patrimonial em determinada data."],
+["📈","A DRE evidencia o desempenho da entidade em determinado período."],
+["🕒","O regime de competência reconhece receitas e despesas quando ocorrem os fatos geradores."],
+["💳","O regime de caixa reconhece receitas e despesas quando há recebimento ou pagamento."],
+["🎯","No Exame de Suficiência, primeiro identifique se a conta pertence ao Ativo, Passivo, Patrimônio Líquido, Receita ou Despesa; depois determine sua natureza: devedora ou credora."]
 ];
 
-function atualizar(){
-  document.getElementById("figurinha").style.backgroundPosition = posicoes[atual];
-  document.getElementById("contador").innerText = "Figurinha " + (atual + 1) + " de 10";
+let atual = 0;
+
+function mostrar(){
+  document.getElementById("emoji").innerText = dicas[atual][0];
+  document.getElementById("numero").innerText = "DICA " + (atual + 1);
+  document.getElementById("texto").innerText = dicas[atual][1];
+  document.getElementById("progresso").innerText = (atual + 1) + " de " + dicas.length;
 }
 
-function proxima(){
-  if(atual < 9){
+function seguir(){
+  if(atual < dicas.length - 1){
     atual++;
-    atualizar();
+    mostrar();
   }
 }
 
 function voltar(){
   if(atual > 0){
     atual--;
-    atualizar();
+    mostrar();
   }
 }
 
 function reiniciar(){
   atual = 0;
-  atualizar();
+  mostrar();
 }
 
-atualizar();
+mostrar();
 </script>
-
 </body>
 </html>
