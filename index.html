@@ -71,7 +71,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <input id="studentName" placeholder="Digite seu nome completo">
       <button class="btn yellow start-btn" onclick="sendStartName()">📲 Enviar nome ao professor</button>
       <div class="info" id="nameStatus">🔒 O módulo será liberado após clicar em “Enviar nome ao professor”.</div>
-      <button class="btn green start-btn" id="enterBtn" onclick="showMenu()" disabled>🚀 Entrar no Módulo</button><button class="btn secondary start-btn" onclick="showMenu()">▶️ Continuar / Abrir Menu</button>
+      <button class="btn green start-btn" id="enterBtn" onclick="showMenu()" disabled>🚀 Entrar no Módulo</button>
     </div>
   </section>
 
@@ -183,19 +183,47 @@ function setScreen(id){
 }
 function sendStartName(){
   const name = document.getElementById('studentName').value.trim();
-  if(!name){ alert('Digite seu nome completo.'); return; }
+  if(!name){
+    alert('Digite seu nome completo.');
+    return;
+  }
+
   studentName = name;
   allowed = true;
-  localStorage.setItem('pm_mod1_juncao_nome_v2_enviado','sim');
-  document.getElementById('enterBtn').disabled = false;
-  document.getElementById('nameStatus').innerHTML = '✅ Nome enviado ao professor. Agora o módulo está liberado.';
-  const msg = `Olá Professor Moreira!\n\nMeu nome é ${name}.\n\nEstou iniciando o Módulo 1 - Contabilidade Básica do CFC na Palma da Mão.`;
-  window.open(`https://wa.me/${professorPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+
+  localStorage.setItem('pm_mod1_juncao_nome_v2', name);
+  localStorage.setItem('pm_mod1_juncao_nome_enviado_v2', 'sim');
+
+  const enterBtn = document.getElementById('enterBtn');
+  const nameStatus = document.getElementById('nameStatus');
+
+  if(enterBtn){
+    enterBtn.disabled = false;
+    enterBtn.removeAttribute('disabled');
+  }
+
+  if(nameStatus){
+    nameStatus.innerHTML = '✅ Nome registrado. Módulo liberado! Agora clique em “Entrar no Módulo”.';
+  }
+
   save();
+
+  const msg = `Olá Professor Moreira!
+
+Meu nome é ${name}.
+
+Estou iniciando o Módulo 1 - Contabilidade Básica do CFC na Palma da Mão.`;
+  window.open(`https://wa.me/${professorPhone}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 function showMenu(){
-  if(!allowed){ alert('Primeiro envie seu nome ao professor.'); return; }
-  view = 'menu'; setScreen('menuScreen'); progress.style.width = '0%';
+  allowed = allowed || localStorage.getItem('pm_mod1_juncao_nome_enviado_v2') === 'sim';
+  if(!allowed){
+    alert('Primeiro envie seu nome ao professor.');
+    return;
+  }
+  view = 'menu';
+  setScreen('menuScreen');
+  progress.style.width = '0%';
 }
 function startAlbum(){ view='album'; renderAlbum(); setScreen('albumScreen'); }
 function renderAlbum(){
@@ -303,6 +331,26 @@ function forceInitialPreview(){
   screens.forEach(s => s.classList.remove('active'));
   document.getElementById('startScreen').classList.add('active');
   progress.style.width = '0%';
+
+  allowed = localStorage.getItem('pm_mod1_juncao_nome_enviado_v2') === 'sim';
+  studentName = localStorage.getItem('pm_mod1_juncao_nome_v2') || studentName || '';
+
+  const input = document.getElementById('studentName');
+  const enterBtn = document.getElementById('enterBtn');
+  const nameStatus = document.getElementById('nameStatus');
+
+  if(input) input.value = studentName;
+
+  if(allowed){
+    if(enterBtn){
+      enterBtn.disabled = false;
+      enterBtn.removeAttribute('disabled');
+    }
+    if(nameStatus){
+      nameStatus.innerHTML = '✅ Nome já registrado. Módulo liberado! Clique em “Entrar no Módulo”.';
+    }
+  }
+
   updateStatus();
 }
 forceInitialPreview();
